@@ -121,18 +121,18 @@ class general(commands.Cog, name="general"):
         except discord.Forbidden:
             await context.send(embed=embed)
 
-    # get the invite link of the discord server of the bot
-    @commands.command(name="server", aliases=["support", "supportserver"], description="Join the support server of the bot")
-    async def server(self, context):
-        embed = discord.Embed(
-            description=f"Join the support server for the bot by clicking [here](https://discord.gg/ht5ev9kq).",
-            color=0xD75BF4
-        )
-        try:
-            await context.author.send(embed=embed)
-            await context.send("I sent you a private message!")
-        except discord.Forbidden:
-            await context.send(embed=embed)
+#     # get the invite link of the discord server of the bot
+#     @commands.command(name="server", aliases=["support", "supportserver"], description="Join the support server of the bot")
+#     async def server(self, context):
+#         embed = discord.Embed(
+#             description=f"Join the support server for the bot by clicking [here](https://discord.gg/ht5ev9kq).",
+#             color=0xD75BF4
+#         )
+#         try:
+#             await context.author.send(embed=embed)
+#             await context.send("I sent you a private message!")
+#         except discord.Forbidden:
+#             await context.send(embed=embed)
 
     # @commands.command(name="poll")
     # async def poll(self, context, *, title):
@@ -187,104 +187,104 @@ class general(commands.Cog, name="general"):
             )
             await context.send(embed=embed)
 
-    @staticmethod
-    def signals_helper(context, signal):
-        embed = discord.Embed(
-            title="Signals",
-            description="",
-            color=0xD5059D
-        )
+#     @staticmethod
+#     def signals_helper(context, signal):
+#         embed = discord.Embed(
+#             title="Signals",
+#             description="",
+#             color=0xD5059D
+#         )
 
-        embed.add_field(
-            name="Id number of the signal",
-            value=f"{signal['id']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Timestamp:",
-            value=f"{signal['timestamp']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Name of the Exchange",
-            value=f"{signal['exchange']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Base Currency for this signal",
-            value=f"{signal['currency']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Coin",
-            value=f"{signal['coin']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Buy Start",
-            value=f"{signal['buy_start']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Buy End",
-            value=f"{signal['buy_end']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Price for the first selling target",
-            value=f"{signal['target1']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Price for the second selling target",
-            value=f"{signal['target2']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Price for the third selling target",
-            value=f"{signal['target3']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Recommended stop loss price",
-            value=f"{signal['stop_loss']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Type for this signal",
-            value=f"{signal['type']}",
-            inline=False
-        )
-        embed.add_field(
-            name="Current ask price when the signal was issued",
-            value=f"{signal['ask']}",
-            inline=False
-        )
-        embed.set_footer(
-            text=f"Requested by {context.message.author}"
-        )
-        return embed
+#         embed.add_field(
+#             name="Id number of the signal",
+#             value=f"{signal['id']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Timestamp:",
+#             value=f"{signal['timestamp']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Name of the Exchange",
+#             value=f"{signal['exchange']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Base Currency for this signal",
+#             value=f"{signal['currency']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Coin",
+#             value=f"{signal['coin']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Buy Start",
+#             value=f"{signal['buy_start']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Buy End",
+#             value=f"{signal['buy_end']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Price for the first selling target",
+#             value=f"{signal['target1']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Price for the second selling target",
+#             value=f"{signal['target2']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Price for the third selling target",
+#             value=f"{signal['target3']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Recommended stop loss price",
+#             value=f"{signal['stop_loss']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Type for this signal",
+#             value=f"{signal['type']}",
+#             inline=False
+#         )
+#         embed.add_field(
+#             name="Current ask price when the signal was issued",
+#             value=f"{signal['ask']}",
+#             inline=False
+#         )
+#         embed.set_footer(
+#             text=f"Requested by {context.message.author}"
+#         )
+#         return embed
 
-    @commands.command(name="cqs", description="Crypto Signals")
-    async def crypto_quality_signals(self, context):
-        url = f"https://api.cryptoqualitysignals.com/v1/getSignal/?api_key=FREE"
-        async with aiohttp.ClientSession() as session:
-            while True:
-                time.sleep(290)
-                raw_response = await session.get(url)
-                response = await raw_response.text()
-                response = json.loads(response)
-                print(response)
-                if response['signals']:
-                    if response['count'] == 1:
-                        embed = self.signals_helper(context, response['signals'][0])
-                        await context.send(embed=embed)
-                    else:
-                        for i in range(response['count']):
-                            embed = self.signals_helper(context, response['signals'][i])
-                            await context.send(embed=embed)
-                else:
-                    continue
+#     @commands.command(name="cqs", description="Crypto Signals")
+#     async def crypto_quality_signals(self, context):
+#         url = f"https://api.cryptoqualitysignals.com/v1/getSignal/?api_key=FREE"
+#         async with aiohttp.ClientSession() as session:
+#             while True:
+#                 time.sleep(290)
+#                 raw_response = await session.get(url)
+#                 response = await raw_response.text()
+#                 response = json.loads(response)
+#                 print(response)
+#                 if response['signals']:
+#                     if response['count'] == 1:
+#                         embed = self.signals_helper(context, response['signals'][0])
+#                         await context.send(embed=embed)
+#                     else:
+#                         for i in range(response['count']):
+#                             embed = self.signals_helper(context, response['signals'][i])
+#                             await context.send(embed=embed)
+#                 else:
+#                     continue
 
 
 
