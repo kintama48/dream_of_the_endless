@@ -18,6 +18,7 @@ class ModerationCog(commands.Cog, name="moderation"):
     # kick out a user from the server
     @commands.command(name='kick', pass_context=True, description="Kick out a user")
     @commands.has_permissions(kick_members=True)
+    @commands.is_owner()
     async def kick(self, context, member: discord.Member, *, reason="Not specified"):
         if member.guild_permissions.administrator:
             embed = discord.Embed(
@@ -57,6 +58,7 @@ class ModerationCog(commands.Cog, name="moderation"):
     # change the nickname of a user
     @commands.command(name="nick", description="Change the nickname of a user")
     @commands.has_permissions(manage_nicknames=True)
+    @commands.is_owner()
     async def nick(self, context, member: discord.Member, *, nickname=None):
         try:
             await member.edit(nick=nickname)
@@ -78,6 +80,7 @@ class ModerationCog(commands.Cog, name="moderation"):
     # ban a user
     @commands.command(name="ban", description="Ban a user")
     @commands.has_permissions(ban_members=True)
+    @commands.is_owner()
     async def ban(self, context, member: discord.Member, *, reason="Not specified"):
         try:
             if member.guild_permissions.administrator:
@@ -112,6 +115,7 @@ class ModerationCog(commands.Cog, name="moderation"):
     # warn a user in their DMs
     @commands.command(name="warn", description="Warn a user in their DMs. Has an extra reason argument followed by the member's @.")
     @commands.has_permissions(manage_messages=True)
+    @commands.is_owner()
     async def warn(self, context, member: discord.Member, *, reason="Not specified"):
         embed = discord.Embed(
             title="User Warned!",
@@ -131,6 +135,7 @@ class ModerationCog(commands.Cog, name="moderation"):
     # delete an n number of messages
     @commands.command(name="purge", description="Deletes an n number of messages")
     @commands.has_permissions(manage_messages=True, manage_channels=True)
+    @commands.is_owner()
     async def purge(self, context, amount):
         try:
             amount = int(amount)
