@@ -16,6 +16,7 @@ class Help(commands.Cog, name="help"):
         self.bot = bot
 
     @commands.command(name="help", description="Displays the list of commands")
+    @commands.is_owner()
     async def help(self, context):  # lists all commands in all the cogs of the bot
         prefix = config["bot_prefix"]
         if not isinstance(prefix, str):
