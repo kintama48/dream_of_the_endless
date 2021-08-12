@@ -21,6 +21,7 @@ class Games(commands.Cog, name="fun"):
 
     @commands.command(name="dailyfact", description="Gives a daily fact to every user if called")
     @commands.cooldown(1, 86400, BucketType.user)
+    @commands.is_owner()
     async def dailyfact(self, context): # dailyfact command can be executed only once per day per user
         async with aiohttp.ClientSession() as session:
             async with session.get("https://uselessfacts.jsph.pl/random.json?language=en") as request:
@@ -37,62 +38,62 @@ class Games(commands.Cog, name="fun"):
                     await context.send(embed=embed)
                     self.dailyfact.reset_cooldown(context)
 
-#     @commands.command(name="rpc", description="Play rock paper scissors with the bot")
-#     async def rock_paper_scissors(self, context):
-#         choices = {
-#             0: "rock",
-#             1: "paper",
-#             2: "scissors"
-#         }
-#         reactions = {
-#             "🪨": 0,
-#             "🧻": 1,
-#             "✂": 2
-#         }
-#         embed = discord.Embed(title="Please choose", color=0xDC33FF)
-#         embed.set_author(name=context.author.display_name, icon_url=context.author.avatar_url)
-#         choose_message = await context.send(embed=embed)
-#         for emoji in reactions:
-#             await choose_message.add_reaction(emoji)
-
-#         def check(reaction, user):
-#             return user == context.message.author and str(reaction) in reactions
-
-#         try:
-#             reaction, user = await self.bot.wait_for("reaction_add", timeout=10, check=check)
-
-#             user_choice_emote = reaction.emoji
-#             user_choice_index = reactions[user_choice_emote]
-
-#             bot_choice_emote = random.choice(list(reactions.keys()))
-#             bot_choice_index = reactions[bot_choice_emote]
-
-#             result_embed = discord.Embed(color=0x42F56C)
-#             result_embed.set_author(name=context.author.display_name, icon_url=context.author.avatar_url)
-#             await choose_message.clear_reactions()
-
-#             if user_choice_index == bot_choice_index:
-#                 result_embed.description = f"**That's a draw!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-#                 result_embed.colour = 0xF59E42
-#             elif user_choice_index == 0 and bot_choice_index == 2:
-#                 result_embed.description = f"**You won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-#                 result_embed.colour = 0x42F56C
-#             elif user_choice_index == 1 and bot_choice_index == 0:
-#                 result_embed.description = f"**You won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-#                 result_embed.colour = 0x42F56C
-#             elif user_choice_index == 2 and bot_choice_index == 1:
-#                 result_embed.description = f"**You won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-#                 result_embed.colour = 0x42F56C
-#             else:
-#                 result_embed.description = f"**I won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
-#                 result_embed.colour = 0xE02B2B
-#                 await choose_message.add_reaction("🇱")
-#             await choose_message.edit(embed=result_embed)
-#         except asyncio.exceptions.TimeoutError:
-#             await choose_message.clear_reactions()
-#             timeout_embed = discord.Embed(title="Too late", color=0xE02B2B)
-#             timeout_embed.set_author(name=context.author.display_name, icon_url=context.author.avatar_url)
-#             await choose_message.edit(embed=timeout_embed)
+    # @commands.command(name="rpc", description="Play rock paper scissors with the bot")
+    # async def rock_paper_scissors(self, context):
+    #     choices = {
+    #         0: "rock",
+    #         1: "paper",
+    #         2: "scissors"
+    #     }
+    #     reactions = {
+    #         "🪨": 0,
+    #         "🧻": 1,
+    #         "✂": 2
+    #     }
+    #     embed = discord.Embed(title="Please choose", color=0xDC33FF)
+    #     embed.set_author(name=context.author.display_name, icon_url=context.author.avatar_url)
+    #     choose_message = await context.send(embed=embed)
+    #     for emoji in reactions:
+    #         await choose_message.add_reaction(emoji)
+    # 
+    #     def check(reaction, user):
+    #         return user == context.message.author and str(reaction) in reactions
+    # 
+    #     try:
+    #         reaction, user = await self.bot.wait_for("reaction_add", timeout=10, check=check)
+    # 
+    #         user_choice_emote = reaction.emoji
+    #         user_choice_index = reactions[user_choice_emote]
+    # 
+    #         bot_choice_emote = random.choice(list(reactions.keys()))
+    #         bot_choice_index = reactions[bot_choice_emote]
+    # 
+    #         result_embed = discord.Embed(color=0x42F56C)
+    #         result_embed.set_author(name=context.author.display_name, icon_url=context.author.avatar_url)
+    #         await choose_message.clear_reactions()
+    # 
+    #         if user_choice_index == bot_choice_index:
+    #             result_embed.description = f"**That's a draw!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
+    #             result_embed.colour = 0xF59E42
+    #         elif user_choice_index == 0 and bot_choice_index == 2:
+    #             result_embed.description = f"**You won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
+    #             result_embed.colour = 0x42F56C
+    #         elif user_choice_index == 1 and bot_choice_index == 0:
+    #             result_embed.description = f"**You won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
+    #             result_embed.colour = 0x42F56C
+    #         elif user_choice_index == 2 and bot_choice_index == 1:
+    #             result_embed.description = f"**You won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
+    #             result_embed.colour = 0x42F56C
+    #         else:
+    #             result_embed.description = f"**I won!**\nYou've chosen {user_choice_emote} and I've chosen {bot_choice_emote}."
+    #             result_embed.colour = 0xE02B2B
+    #             await choose_message.add_reaction("🇱")
+    #         await choose_message.edit(embed=result_embed)
+    #     except asyncio.exceptions.TimeoutError:
+    #         await choose_message.clear_reactions()
+    #         timeout_embed = discord.Embed(title="Too late", color=0xE02B2B)
+    #         timeout_embed.set_author(name=context.author.display_name, icon_url=context.author.avatar_url)
+    #         await choose_message.edit(embed=timeout_embed)
 
 
 def setup(bot):
