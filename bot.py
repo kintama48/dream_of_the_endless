@@ -23,13 +23,13 @@ async def on_ready():
     print(f"Discord.py API version: {discord.__version__}")
     print(f"Python version: {platform.python_version()}")
     print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
-    status_task.start()
+    # status_task.start()
 
 
-@tasks.loop(minutes=1.0)
-async def status_task():    # to set a game's status
-    statuses = ["with you!", "with Dream of the Endless!", f"{config['bot_prefix']}help", "with humans!"]
-    await bot.change_presence(activity=discord.Game(random.choice(statuses)))
+# @tasks.loop(minutes=1.0)
+# async def status_task():    # to set a game's status
+#     statuses = ["with you!", "with Dream of the Endless!", f"{config['bot_prefix']}help", "with humans!"]
+#     await bot.change_presence(activity=discord.Game(random.choice(statuses)))
 
 bot.remove_command("help")
 if __name__ == "__main__":  # loading the features of the bot
@@ -54,14 +54,6 @@ async def on_message(message):      #executed when a message is sent by someone
         return
     await bot.process_commands(message)
 
-
-@bot.event
-async def on_member_join(member):   #executed when a new member joins
-    with open("blacklist.json") as file:
-        blacklist = json.load(file)
-    if member.author.id not in blacklist["ids"]:
-        channel = discord.utils.get(member.guild.text_channels, name="general")
-        await channel.send(f"{member.author} has arrived!")
 
 @bot.event
 async def on_command_completion(ctx):   # command executed successfully
